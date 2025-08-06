@@ -1,7 +1,14 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <div class="flex flex-col items-center">
+                <img src="{{ asset('panel/assets/images/logos/logo-firat.png') }}"
+                     alt="Site Logosu"
+                     class="p-1 bg-white border-2 border-gray-200 rounded-full" style="height: 100px">
+                <h1 class="mt-4 text-xl font-semibold text-gray-700">
+                    ISDFS
+                </h1>
+            </div>
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -19,10 +26,32 @@
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
-
+{{--
             <div class="mt-4">
+                <x-label for="paper_id" value="{{ __('Paper ID') }}" />
+                <x-input id="paper_id"
+                         class="block mt-1 w-full"
+                         type="number"
+                         name="paper_id"
+                         min="1"
+                         required
+                         autocomplete="current-paper_id" />
+            </div>
+--}}
+            <div class="mt-4" x-data="{ showPassword: false }">
                 <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-input id="password"
+                         class="block mt-1 w-full"
+                         x-bind:type="showPassword ? 'text' : 'password'"
+                         name="password"
+                         required
+                         autocomplete="new-password" />
+                <div class="block mt-2">
+                    <label for="show_password_checkbox" class="inline-flex items-center">
+                        <x-checkbox id="show_password_checkbox" x-model="showPassword" />
+                        <span class="ms-2 text-sm text-gray-600">Şifreyi Göster</span>
+                    </label>
+                </div>
             </div>
 
             <div class="block mt-4">
@@ -31,7 +60,6 @@
                     <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
             </div>
-
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">

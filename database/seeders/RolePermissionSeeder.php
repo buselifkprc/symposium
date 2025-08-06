@@ -11,10 +11,12 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $superAdmin = Role::create(['name' => 'süperadmin']);
+        // Rolleri oluştur
+        $superAdmin = Role::create(['name' => 'superadmin']);
         $admin = Role::create(['name' => 'admin']);
         $kullanici = Role::create(['name' => 'kullanici']);
 
+        // İzinleri oluştur
         $permissions = [
             'admin oluştur',
             'admin sil',
@@ -29,8 +31,10 @@ class RolePermissionSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
+        // Süperadmin her şeye yetkili
         $superAdmin->givePermissionTo(Permission::all());
 
+        // Admin bazı yönetimsel yetkilere sahip
         $admin->givePermissionTo([
             'ayarları yönet',
             'kullanıcıları görüntüle',
@@ -38,6 +42,7 @@ class RolePermissionSeeder extends Seeder
             'makale düzenle',
         ]);
 
+        // Kullanıcı sadece içerik oluşturabilir
         $kullanici->givePermissionTo([
             'makale oluştur',
         ]);
@@ -45,7 +50,7 @@ class RolePermissionSeeder extends Seeder
         // Test için bir kullanıcıya süperadmin rolü ata (örnek: id=1)
         $user = User::find(1);
         if ($user) {
-            $user->assignRole('süperadmin');
+            $user->assignRole('superadmin');
         }
     }
 }
