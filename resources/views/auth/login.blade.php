@@ -2,12 +2,12 @@
     <x-authentication-card>
         <x-slot name="logo">
             <div class="flex flex-col items-center">
-                <img src="{{ asset('panel/assets/images/logos/logo-firat.png') }}"
+                <img src="{{ asset('panel/assets/images/logos/ısdfs.png') }}"
                      alt="Site Logosu"
                      class="p-1 bg-white border-2 border-gray-200 rounded-full" style="height: 100px">
-                <h1 class="mt-4 text-xl font-semibold text-gray-700">
-                    ISDFS
-                </h1>
+                <h2 class="mt-4 text-sm font-semibold text-gray-700">
+                    International Symposium on Digital Forensics and Security
+                </h2>
             </div>
         </x-slot>
 
@@ -66,7 +66,9 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
+            </div>
 --}}
+            <div class="flex justify-center">
                 <x-button class="mt-4">
                     {{ __('Log in') }}
                 </x-button>
