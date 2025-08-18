@@ -2,12 +2,13 @@
     <x-authentication-card>
         <x-slot name="logo">
             <div class="flex flex-col items-center">
-                <img src="{{ asset('panel/assets/images/logos/logo-firat.png') }}"
+                <img src="{{ asset('panel/assets/images/logos/ısdfs.png') }}"
                      alt="Site Logosu"
-                     class="p-1 bg-white border-2 border-gray-200 rounded-full" style="height: 100px">
-                <h1 class="mt-4 text-xl font-semibold text-gray-700">
-                    ISDFS Register Form
-                </h1>
+                     class="rounded-full object-cover" style="height: 100px; width: 100px;">
+
+                <h2 class="mt-4 text-sm font-semibold text-gray-700">
+                    International Symposium on Digital Forensics and Security
+                </h2>
             </div>
         </x-slot>
         <x-validation-errors class="mb-4" />
