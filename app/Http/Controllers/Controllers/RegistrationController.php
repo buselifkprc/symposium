@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Controllers;
 
 use App\Models\Registration;
 use Illuminate\Http\Request;
@@ -42,6 +42,10 @@ class RegistrationController extends Controller
             'extra_paper_count' => $validated['extra_paper_count'] ?? 0,
             'note' => $validated['note'] ?? null,
         ]);
+        // formu doldurmadan çıkan kişi için güncellenmiş kısım - kontrol
+        $user = auth()->user();
+        $user->has_completed_registration = true; // Değeri 1 (true) yap
+        $user->save(); // Değişikliği veritabanına kaydet
 
         return redirect()->route('registration.summary')->with('data', [
             ...$validated,

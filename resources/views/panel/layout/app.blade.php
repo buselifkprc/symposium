@@ -7,9 +7,6 @@
     <title>Modernize Free</title>
     <link rel="shortcut icon" type="image/png" href="{{asset('panel/assets/images/logos/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('panel/assets/css/styles.min.css')}}" />
-
-    <!-- YENİ EKLENDİ: DataTables için CSS Dosyası -->
-    <!-- Temanın ana CSS'inden sonra eklenmesi, stil çakışmalarını önler. -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
 </head>
@@ -23,7 +20,6 @@
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-between">
                 <a href="./index.html" class="text-nowrap logo-img">
-                    {{-- DEĞİŞTİRİLDİ: Logo yolu güncellendi --}}
                     <img src="{{asset('panel/assets/images/logos/logo-firat.png')}}" width="150" alt="Firat Logo" />
                 </a>
                 <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -68,9 +64,7 @@
             </nav>
         </div>
     </aside>
-    <!-- ... Sidebar Sonu ... -->
 
-    <!-- ... Body Wrapper (Header vb.) Başlangıcı (Değişiklik yok) ... -->
     <div class="body-wrapper">
         <header class="app-header">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -93,37 +87,25 @@
                 </div>
             </nav>
         </header>
-        <!-- ... Header Sonu ... -->
-
         <div class="container-fluid">
-            <!-- Sayfa içeriği buraya gelecek -->
             @yield('content')
-
-            <div class="py-6 px-6 text-center">
-                <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- SCRIPTS BÖLÜMÜ -->
 <script src="{{asset('panel/assets/libs/jquery/dist/jquery.min.js')}}"></script>
 <script src="{{asset('panel/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-
-<!-- YENİ EKLENDİ: DataTables için JS Dosyaları -->
-<!-- jQuery ve Bootstrap JS'den sonra eklenmelidir. -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- Temanın kendi scriptleri -->
+<!-- Temanın kendi diğer scriptleri -->
 <script src="{{asset('panel/assets/js/sidebarmenu.js')}}"></script>
 <script src="{{asset('panel/assets/js/app.min.js')}}"></script>
 <script src="{{asset('panel/assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
 <script src="{{asset('panel/assets/libs/simplebar/dist/simplebar.js')}}"></script>
 <script src="{{asset('panel/assets/js/dashboard.js')}}"></script>
 
-<!-- YENİ EKLENDİ: Sayfaya Özel Scriptler İçin Alan -->
-<!-- Her sayfanın kendi DataTable başlatma kodunu buraya eklemesi için kullanılır. -->
+<!-- Her sayfanın kendi özel scriptlerini ekleyebileceği alan -->
 @yield('scripts')
 
 </body>

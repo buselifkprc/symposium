@@ -1,13 +1,10 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Paper;
 use App\Models\Registration;
 use App\Models\User;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 
 class AdminController extends Controller

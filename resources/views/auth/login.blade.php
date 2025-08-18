@@ -26,7 +26,7 @@
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
-{{--
+
             <div class="mt-4">
                 <x-label for="paper_id" value="{{ __('Paper ID') }}" />
                 <x-input id="paper_id"
@@ -37,7 +37,7 @@
                          required
                          autocomplete="current-paper_id" />
             </div>
---}}
+{{--
             <div class="mt-4" x-data="{ showPassword: false }">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password"
@@ -66,8 +66,8 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
-
-                <x-button class="ms-4">
+--}}
+                <x-button class="mt-4">
                     {{ __('Log in') }}
                 </x-button>
             </div>
