@@ -18,9 +18,11 @@
     <!-- ... Sidebar Başlangıcı ... -->
     <aside class="left-sidebar">
         <div>
-            <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index.html" class="text-nowrap logo-img">
-                    <img src="{{asset('panel/assets/images/logos/logo-firat.png')}}" width="150" alt="Firat Logo" />
+            <div class="brand-logo d-flex align-items-center justify-content-center mt-4">
+                <a href="./index.html" class="text-nowrap logo-img d-flex justify-content-center">
+                    <img src="{{asset('panel/assets/images/logos/ısdfs.png')}}"
+                         style="height: 80px; width: 80px; border-radius: 50%; object-fit: cover;"
+                         alt="Isdfs Logo" />
                 </a>
                 <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                     <i class="ti ti-x fs-8"></i>

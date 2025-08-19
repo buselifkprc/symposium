@@ -2,11 +2,11 @@
 
 @section('content')
     <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Yönetimi</title>
+    <title>Admin Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 </head>
@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mb-4">Super Admin Paneli - Admin Management</h1>
+            <h1 class="mb-4">Super Admin Management</h1>
 
             <!-- Hata ve Başarı Mesajları -->
             @if (session('success'))
@@ -119,11 +119,7 @@
 <script>
     // DataTable'ı başlat
     $(document).ready(function() {
-        $('#potentialAdminsTable').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json"
-            }
-        });
+        $('#potentialAdminsTable').DataTable();
     });
 </script>
 </body>
