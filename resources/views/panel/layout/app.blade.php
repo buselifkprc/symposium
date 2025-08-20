@@ -8,7 +8,16 @@
     <link rel="shortcut icon" type="image/png" href="{{asset('panel/assets/images/logos/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('panel/assets/css/styles.min.css')}}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
+    <style>
+        .sidebar-nav .sidebar-link.custom-active-style {
+            background-color: #5D87FF;
+            color: white;
+            border-radius: 7px;
+        }
+        .sidebar-nav .sidebar-link.custom-active-style:hover {
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,7 +28,7 @@
     <aside class="left-sidebar">
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-center mt-4">
-                <a href="./index.html" class="text-nowrap logo-img d-flex justify-content-center">
+                <a href="{{ route('dashboard') }}" class="text-nowrap logo-img d-flex justify-content-center">
                     <img src="{{asset('panel/assets/images/logos/ısdfs.png')}}"
                          style="height: 80px; width: 80px; border-radius: 50%; object-fit: cover;"
                          alt="Isdfs Logo" />
@@ -30,15 +39,17 @@
             </div>
             <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                 <ul id="sidebarnav">
+
                     <li class="nav-small-cap">
-                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                        <span class="hide-menu">Home</span>
+                        <a  class="custom-active-style" href="{{ route('dashboard') }}" aria-expanded="false">
+                            <span class="hide-menu">Home</span>
+                        </a>
                     </li>
+
 
                     {{-- Ortak: Paper Sayfası --}}
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('kullanici.PaperIndex') }}" aria-expanded="false">
-                            <span><i class="ti ti-article"></i></span>
+                        <a class="sidebar-link {{ request()->is('paper*') ? 'custom-active-style' : '' }}" href="{{ route('kullanici.PaperIndex') }}" aria-expanded="false">
                             <span class="hide-menu">Paper Settings</span>
                         </a>
                     </li>
@@ -46,8 +57,7 @@
                     {{-- Sadece admin ve süperadmin: Veri Listesi --}}
                     @if(auth()->user()->hasRole('superadmin|admin'))
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false">
-                                <span><i class="ti ti-database"></i></span>
+                            <a class="sidebar-link {{ request()->is('admin/dashboard*') ? 'custom-active-style' : '' }}" href="{{ route('admin.dashboard') }}" aria-expanded="false">
                                 <span class="hide-menu">Data List</span>
                             </a>
                         </li>
@@ -56,8 +66,7 @@
                     {{-- Sadece süperadmin: Admin Yönetimi --}}
                     @if(auth()->user()->hasRole('superadmin'))
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('superadmin.admins.index') }}" aria-expanded="false">
-                                <span><i class="ti ti-user-shield"></i></span>
+                            <a class="sidebar-link {{ request()->is('superadmin/admins*') ? 'custom-active-style' : '' }}" href="{{ route('superadmin.admins.index') }}" aria-expanded="false">
                                 <span class="hide-menu">Admin Settings</span>
                             </a>
                         </li>
@@ -79,6 +88,9 @@
                 </ul>
                 <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                     <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                        <li class="nav-item me-3">
+                            <span>{{ auth()->user()->name }} {{ auth()->user()->surname }}</span>
+                        </li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

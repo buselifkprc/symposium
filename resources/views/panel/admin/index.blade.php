@@ -4,7 +4,6 @@
     <div class="card">
         <div class="card-header">
             <h3>Data Management</h3>
-            <p>You can manage all users, records and notifications in the system from here.</p>
         </div>
         <div class="card-body">
             <!-- Nav tabs -->

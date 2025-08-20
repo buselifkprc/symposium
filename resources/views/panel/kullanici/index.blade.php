@@ -4,8 +4,10 @@
     <div class="row mt-3">
         <div class="col-lg-12">
             <div class="card">
+                <div class="card-header">
+                    <h3>Paper List</h3>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Paper List</h5>
                     <a href="{{ route('kullanici.PaperCreate') }}" class="btn btn-light px-5 mb-4"><i class="icon-plus"></i>Create New Paper</a>
                     <div class="table-responsive table-striped table-hover">
                         <table class="table">

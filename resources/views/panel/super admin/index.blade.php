@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="mb-4">Super Admin Management</h1>
+
 
             <!-- Hata ve Başarı Mesajları -->
             @if (session('success'))
@@ -30,12 +30,12 @@
             @endif
 
             <!-- Admin Olarak Atanabilecek Kullanıcılar Listesi -->
-            <div class="card mb-5">
+            <div class="card">
                 <div class="card-header">
-                    <h4>Assign as Admin</h4>
+                    <h3 class="mb-4">Assign as Admin</h3>
                 </div>
                 <div class="card-body">
-                    <p class="text-muted">You can assign an existing user from the list below as an admin to the system.</p>
+
                     <table id="potentialAdminsTable" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
