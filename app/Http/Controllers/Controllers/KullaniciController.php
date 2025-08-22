@@ -20,11 +20,22 @@ class KullaniciController extends Controller
 
     public function paperindex()
     {
-        $papers = Paper::latest()->get(); // En son ekleneni en üstte gösterir
+        // 1. Her kullanıcının sadece kendi makalelerini görmesini sağlar.
+        // 2. Makaleyle birlikte yazar bilgisini de (user) verimli bir şekilde çeker.
+        // Giriş yapan kullanıcı
+        $user = auth()->user();
+        // Kullanıcının registration'ları üzerinden bağlı paper'ları getir
+        $papers = Paper::with('registration')
+            ->whereHas('registration', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->orderByDesc('created_at')
+            ->get();
+
         return view('panel.kullanici.index', compact('papers'));
     }
 
-    public function papercreatepage()
+        public function papercreatepage()
     {
         return view('panel.kullanici.create');
     }

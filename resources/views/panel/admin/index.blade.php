@@ -92,8 +92,8 @@
                                 <th>ID</th>
                                 <th>Paper Title</th>
                                 <th>Writer</th>
+                                <th>Author Mail</th>
                                 <th>Registration ID</th>
-                                <th>Added Date</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -102,8 +102,8 @@
                                     <td>{{ $paper->id }}</td>
                                     <td>{{ $paper->paper_title }}</td>
                                     <td>{{ $paper->registration->user->name ?? 'User Not Found' }} {{ $paper->registration->user->surname ?? '' }}</td>
+                                    <td>{{ $paper->registration->user->email ?? '-' }}</td>
                                     <td>{{ $paper->registration_id }}</td>
-                                    <td>{{ $paper->created_at->format('d/m/Y H:i') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
