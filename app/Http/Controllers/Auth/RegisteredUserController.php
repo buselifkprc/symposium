@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
 {

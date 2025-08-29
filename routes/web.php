@@ -1,15 +1,18 @@
 <?php
 
-use App\Http\Controllers\Controllers\AdminController;
-use App\Http\Controllers\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Controllers\KullaniciController;
-use App\Http\Controllers\Controllers\RegistrationController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\KullaniciController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\Auth\PaperLoginController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/login-paper', [PaperLoginController::class, 'login'])->name('paper.login');
 
 // 'registration.completed' kuralımızı buraya ekledik.
 // paper yönetimini bu grubun içine taşıdık.

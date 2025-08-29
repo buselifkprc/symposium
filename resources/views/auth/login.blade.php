@@ -20,8 +20,8 @@
             </div>
         @endsession
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+        <form method="POST" action="{{ route('paper.login') }}">
+        @csrf
 
             <div>
                 <x-label for="email" value="{{ __('Email') }}" />
@@ -38,7 +38,7 @@
                          required
                          autocomplete="current-paper_id" />
             </div>
-
+    {{--
             <div class="mt-4" x-data="{ showPassword: false }">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password"
@@ -68,7 +68,7 @@
                     </a>
                 @endif
             </div>
-
+--}}
             <div class="flex justify-center">
                 <x-button class="mt-4">
                     {{ __('Log in') }}

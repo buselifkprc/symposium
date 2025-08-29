@@ -1,17 +1,15 @@
 <?php
-namespace App\Http\Controllers\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\Paper;
 use App\Models\Registration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 
 class AdminController extends Controller
 {
-
-
-
     public function index()
     {
         // Eager Loading (with metodu) kullanarak N+1 problemini önlüyoruz.
@@ -83,3 +81,4 @@ class AdminController extends Controller
         return redirect()->route('superadmin.admins.index')->with('error', 'İşlem başarısız, kullanıcı admin rolüne sahip değil.');
     }
 }
+

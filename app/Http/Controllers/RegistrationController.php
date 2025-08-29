@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RegistrationController extends Controller
 {
@@ -78,3 +79,4 @@ class RegistrationController extends Controller
 
 
 }
+

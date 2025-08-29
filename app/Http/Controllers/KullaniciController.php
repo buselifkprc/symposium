@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Controllers;
+namespace App\Http\Controllers;
+
 use App\Models\Paper;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class KullaniciController extends Controller
 {
@@ -35,7 +37,7 @@ class KullaniciController extends Controller
         return view('panel.kullanici.index', compact('papers'));
     }
 
-        public function papercreatepage()
+    public function papercreatepage()
     {
         return view('panel.kullanici.create');
     }
@@ -79,3 +81,4 @@ class KullaniciController extends Controller
         return redirect()->route('kullanici.PaperIndex')->with('success', 'Paper başarıyla güncellendi.');
     }
 }
+

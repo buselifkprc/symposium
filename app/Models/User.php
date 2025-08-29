@@ -69,14 +69,23 @@ class User extends Authenticatable
     }
     // bir kullanıcının birden fazla kaydı olabilir.
 
-    public function papers()
-    {
-        return $this->hasMany(Paper::class);
-    }
     public function registration()
     {
         return $this->hasOne(Registration::class, 'user_id');
     }
+
+   // hasManyThrough ile user -> registration -> papers
+    public function papers()
+    {
+        return $this->hasManyThrough(Paper::class, Registration::class);
+    }
+
+// giriş için kullanılacak tek paper
+    public function loginPaper()
+    {
+        return $this->belongsTo(Paper::class, 'login_paper_id');
+    }
+
 }
 
 
