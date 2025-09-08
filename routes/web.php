@@ -48,3 +48,6 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/etkinlik-kaydi', [RegistrationController::class, 'store'])->name('registration.store');
 Route::get('/register/summary', [RegistrationController::class, 'summary'])->name('registration.summary');
+
+Route::post('/registration/update', [RegistrationController::class, 'update'])->name('registration.update');
+Route::post('/payment', [KullaniciController::class, 'paymentPage'])->name('payment.page');

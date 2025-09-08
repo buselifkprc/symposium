@@ -60,9 +60,14 @@ class KullaniciController extends Controller
 
     public function paperupdatepage($id)
     {
-        $paper = Paper::findOrFail($id); // find yerine findOrFail kullanmak kayıt bulunamazsa 404 hatası verir.
-        return view('panel.kullanici.update', compact('paper'));
+        $paper = Paper::findOrFail($id);
+
+        // Paper'a bağlı registration
+        $registration = $paper->registration; // paper modelinde registration ilişkisi olmalı
+
+        return view('panel.kullanici.update', compact('paper', 'registration'));
     }
+
 
     public function paperupdate(Request $request)
     {
@@ -80,5 +85,20 @@ class KullaniciController extends Controller
 
         return redirect()->route('kullanici.PaperIndex')->with('success', 'Paper başarıyla güncellendi.');
     }
+    public function paymentPage(Request $request)
+    {
+        $selectedPaperIds = $request->input('selected_papers', []);
+
+        if(empty($selectedPaperIds)){
+            return redirect()->back()->with('error', 'Please select at least one paper.');
+        }
+
+        $papers = Paper::whereIn('id', $selectedPaperIds)->get();
+        $pricePerPaper = 100; // Örnek: her paper 100 USD
+        $total = count($papers) * $pricePerPaper;
+
+        return view('panel.kullanici.payment', compact('papers', 'total', 'pricePerPaper'));
+    }
+
 }
 

@@ -75,6 +75,34 @@ class RegistrationController extends Controller
             default => throw new \InvalidArgumentException('Invalid participation type.'),
         };
     }
+    public function update(Request $request)
+    {
+        // Validation (isteğe göre detaylandırabilirsin)
+        $request->validate([
+            'registration_id' => 'required|exists:registrations,id',
+            'participation_type' => 'required|string',
+            'membership_type' => 'required|string',
+            'is_ascs_member' => 'required|boolean',
+            'presentation_type' => 'required|string',
+            'phone_number' => 'nullable|string|max:20',
+            'degree' => 'nullable|string|max:100',
+            'paper_ids' => 'nullable|string',
+        ]);
+
+        // Registration bul ve güncelle
+        $registration = Registration::findOrFail($request->registration_id);
+        $registration->participation_type = $request->participation_type;
+        $registration->membership_type = $request->membership_type;
+        $registration->is_ascs_member = $request->is_ascs_member;
+        $registration->presentation_type = $request->presentation_type;
+        $registration->phone_number = $request->phone_number;
+        $registration->degree = $request->degree;
+        $registration->paper_ids = $request->paper_ids;
+
+        $registration->save();
+
+        return back()->with('success', 'Registration updated successfully!');
+    }
 
 
 
