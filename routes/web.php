@@ -6,6 +6,7 @@ use App\Http\Controllers\KullaniciController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\Auth\PaperLoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ListenerController;
 
 
 Route::get('/', function () {
@@ -51,3 +52,7 @@ Route::get('/register/summary', [RegistrationController::class, 'summary'])->nam
 
 Route::post('/registration/update', [RegistrationController::class, 'update'])->name('registration.update');
 Route::post('/payment', [KullaniciController::class, 'paymentPage'])->name('payment.page');
+
+// Listener
+Route::get('/listener/registration', [ListenerController::class, 'registration'])
+    ->name('listener.registration');

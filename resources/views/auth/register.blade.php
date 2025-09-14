@@ -40,7 +40,7 @@
                 <x-input id="phone_number" class="block mt-1 w-full" type="text" name="phone_number" :value="old('phone_number')" required autofocus autocomplete="name" />
             </div>
 
-            <div class="mt-4">
+            <li class="mt-4">
                 <label class="description" for="unvan"> Degree </label><br>
                 <input name="unvan" id="unvan_dr" class="element radio" type="radio" value="1" required>
                 <label class="choice" for="unvan_dr">Ph. D.</label><br>
@@ -52,9 +52,9 @@
                 <label class="choice" for="unvan_prof_dr">Professor</label><br>
                 <input name="unvan" id="unvan_uzman" class="element radio" type="radio" value="5" required>
                 <label class="choice" for="unvan_uzman">Expert / Student / Other</label>
-            </div>
+            </li>
 
-           {{--  <li class="mt-4">
+           <li class="mt-4">
                 <label class="description" for="katilim_turu"> Type of Participation  </label><br>
                 <input name="katilim_turu" class="element radio" type="radio" value="1">
                     <label class="choice" for="katilim_turu_ieee_member">IEEE Member</label><br>
@@ -72,82 +72,89 @@
                     <input id="element_118_2" name="dernek_uyesi" class="element radio" type="radio" value="0" required="">
                     <label class="choice" for="dernek_uyesi_hayır">No </label> <br>
                 </span></li>
-            <li class="mt-4">
-                    <label class="description" for="ekstra_sayfa">Presentation Type </label> <br> <span>
-                    <input id="element_10_1" name="ekstra_sayfa" class="element radio" type="radio" value="1" required="">
-                    <label class="choice" for="ekstra_sayfa_1">Face to Face </label> <br>
-                    <input id="element_10_2" name="ekstra_sayfa" class="element radio" type="radio" value="2" required="">
-                    <label class="choice" for="ekstra_sayfa_2">Remote-Live Presentation</label> <br>
-                    <input id="element_10_3" name="ekstra_sayfa" class="element radio" type="radio" value="3" required="">
-                    <label class="choice" for="ekstra_sayfa_3">Pre-Recorded Video</label> <br>
-                </span></li>
+            {{--
+           <li class="mt-4">
+                   <label class="description" for="ekstra_sayfa">Presentation Type </label> <br> <span>
+                   <input id="element_10_1" name="ekstra_sayfa" class="element radio" type="radio" value="1" required="">
+                   <label class="choice" for="ekstra_sayfa_1">Face to Face </label> <br>
+                   <input id="element_10_2" name="ekstra_sayfa" class="element radio" type="radio" value="2" required="">
+                   <label class="choice" for="ekstra_sayfa_2">Remote-Live Presentation</label> <br>
+                   <input id="element_10_3" name="ekstra_sayfa" class="element radio" type="radio" value="3" required="">
+                   <label class="choice" for="ekstra_sayfa_3">Pre-Recorded Video</label> <br>
+               </span></li>
 
-            <div class="mt-4">
+           <div class="mt-4">
 
-                <x-label for="ozel_not" value="Note" />
-                <textarea id="ozel_not"
-                          name="ozel_not"
-                          rows="4"
-                          maxlength="250"
-                          class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
-            </div>
-          --}}
-            <div class="mt-4" x-data="{ show: false }">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password"
-                         class="block mt-1 w-full"
-                         x-bind:type="show ? 'text' : 'password'"
-                         name="password"
-                         required
-                         autocomplete="new-password" />
-                <label for="show_password" class="inline-flex items-center mt-2">
-                    <x-checkbox id="show_password" x-model="show" />
-                    <span class="ms-2 text-sm text-gray-600">Şifreyi Göster</span>
-                </label>
-            </div>
+               <x-label for="ozel_not" value="Note" />
+               <textarea id="ozel_not"
+                         name="ozel_not"
+                         rows="4"
+                         maxlength="250"
+                         class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+           </div>
 
-            <div class="mt-4" x-data="{ show: false }">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+           <div class="mt-4" x-data="{ show: false }">
+               <x-label for="password" value="{{ __('Password') }}" />
+               <x-input id="password"
+                        class="block mt-1 w-full"
+                        x-bind:type="show ? 'text' : 'password'"
+                        name="password"
+                        required
+                        autocomplete="new-password" />
+               <label for="show_password" class="inline-flex items-center mt-2">
+                   <x-checkbox id="show_password" x-model="show" />
+                   <span class="ms-2 text-sm text-gray-600">Şifreyi Göster</span>
+               </label>
+           </div>
 
-                <x-input id="password_confirmation"
-                         class="block mt-1 w-full"
-                         x-bind:type="show ? 'text' : 'password'"
-                         name="password_confirmation"
-                         required
-                         autocomplete="new-password" />
+           <div class="mt-4" x-data="{ show: false }">
+               <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
 
-                <label for="show_password_confirmation" class="inline-flex items-center mt-2">
-                    <x-checkbox id="show_password_confirmation" x-model="show" />
-                    <span class="ms-2 text-sm text-gray-600">Şifreyi Göster</span>
-                </label>
-            </div>
+               <x-input id="password_confirmation"
+                        class="block mt-1 w-full"
+                        x-bind:type="show ? 'text' : 'password'"
+                        name="password_confirmation"
+                        required
+                        autocomplete="new-password" />
 
-        @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
+               <label for="show_password_confirmation" class="inline-flex items-center mt-2">
+                   <x-checkbox id="show_password_confirmation" x-model="show" />
+                   <span class="ms-2 text-sm text-gray-600">Şifreyi Göster</span>
+               </label>
+           </div>
 
-                            <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-label>
-                </div>
-            @endif
+       @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+               <div class="mt-4">
+                   <x-label for="terms">
+                       <div class="flex items-center">
+                           <x-checkbox name="terms" id="terms" required />
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                           <div class="ms-2">
+                               {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                       'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
+                                       'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
+                               ]) !!}
+                           </div>
+                       </div>
+                   </x-label>
+               </div>
+           @endif
 
+           <div class="flex items-center justify-end mt-4">
+               <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                   {{ __('Already registered?') }}
+               </a>
+
+               <x-button class="ms-4">
+                   {{ __('Register') }}
+               </x-button>
+           </div> --}}
+            <div class="flex items-center justify-end mt-6">
                 <x-button class="ms-4">
-                    {{ __('Register') }}
+                    {{ __('Submit') }}
                 </x-button>
             </div>
+
         </form>
         {{--
         <div class="w-full mt-8 p-6 space-y-4 border border-gray-200 bg-gray-50 rounded-lg text-sm text-gray-700">

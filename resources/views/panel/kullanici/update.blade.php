@@ -26,20 +26,49 @@
 
                         <div class="space-y-6">
 
-                            <!-- Phone Number & Degree Başta -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="phone_number" class="block font-medium text-sm text-gray-700">Phone Number</label>
-                                    <input id="phone_number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" type="text" name="phone_number" value="{{ old('phone_number', $registration->phone_number) }}">
-                                </div>
-                                <div>
-                                    <label for="degree" class="block font-medium text-sm text-gray-700">Degree</label>
-                                    <input id="degree" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm" type="text" name="degree" value="{{ old('degree', $registration->degree) }}">
+                            <!-- Phone Number -->
+                            <div>
+                                <label for="phone_number" class="block font-medium text-sm text-gray-700">Phone Number</label>
+                                <input id="phone_number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
+                                       type="text" name="phone_number"
+                                       value="{{ old('phone_number', $registration->phone_number) }}">
+                            </div>
+
+                            <!-- Degree -->
+                            <div class="p-4 border rounded-md">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-2">Degree</h3>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input name="unvan" id="unvan_dr" class="form-radio text-indigo-600 border-gray-300"
+                                               type="radio" value="1" {{ old('unvan', $registration->unvan) == 1 ? 'checked' : '' }} required>
+                                        <span class="ml-2">Ph. D.</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input name="unvan" id="unvan_yrd_doc" class="form-radio text-indigo-600 border-gray-300"
+                                               type="radio" value="2" {{ old('unvan', $registration->unvan) == 2 ? 'checked' : '' }} required>
+                                        <span class="ml-2">Assistant Professor</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input name="unvan" id="unvan_doc_dr" class="form-radio text-indigo-600 border-gray-300"
+                                               type="radio" value="3" {{ old('unvan', $registration->unvan) == 3 ? 'checked' : '' }} required>
+                                        <span class="ml-2">Associate Professor</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input name="unvan" id="unvan_prof_dr" class="form-radio text-indigo-600 border-gray-300"
+                                               type="radio" value="4" {{ old('unvan', $registration->unvan) == 4 ? 'checked' : '' }} required>
+                                        <span class="ml-2">Professor</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input name="unvan" id="unvan_uzman" class="form-radio text-indigo-600 border-gray-300"
+                                               type="radio" value="5" {{ old('unvan', $registration->unvan) == 5 ? 'checked' : '' }} required>
+                                        <span class="ml-2">Expert / Student / Other</span>
+                                    </label>
                                 </div>
                             </div>
 
+
                             <!-- 1. Participation -->
-                            <div class="p-4 border rounded-md">
+                            {{-- <div class="p-4 border rounded-md">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Participation *</h3>
                                 <div class="space-y-2">
                                     <label class="flex items-center">
@@ -61,7 +90,7 @@
                                         <input id="paper_ids" class="block w-full border-gray-300 rounded-md shadow-sm" type="text" name="paper_ids" value="{{ old('paper_ids', $registration->paper_ids) }}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- 2. Type of Participation -->
                             <div class="p-4 border rounded-md">
@@ -69,7 +98,7 @@
                                 <div class="space-y-2">
                                     @foreach(['IEEE Member', 'Non-IEEE Member', 'IEEE Student Member', 'Student Non-IEEE member'] as $type)
                                         <label class="flex items-center">
-                                            <input type="radio" name="membership_type" value="{{ $type }}" class="form-radio" {{ old('membership_type', $registration->membership_type) == $type ? 'checked' : '' }} required>
+                                            <input type="radio" name="participation_type" value="{{ $type }}" class="form-radio" ...>
                                             <span class="ml-2">{{ $type }}</span>
                                         </label>
                                     @endforeach
@@ -102,9 +131,33 @@
                                         </label>
                                     @endforeach
                                 </div>
+
+                                <!-- Sunacak kişinin adı inputu -->
+                                <div class="mt-4">
+                                    <label for="presenter_name" class="block font-medium text-sm text-gray-700"></label>
+                                    <input id="presenter_name" name="presenter_name" type="text" class="block w-full border-gray-300 rounded-md shadow-sm mt-1"
+                                           value="{{ old('presenter_name', $registration->presenter_name ?? '') }}" placeholder="Enter presenter name">
+                                </div>
                             </div>
 
-                            <!-- 5. Note -->
+                            <!-- 5. Other Papers -->
+                            @if($otherPapers->isNotEmpty())
+                                <div class="mt-6 p-4 border rounded-md">
+                                    <label for="other_paper_id" class="block text-lg font-semibold text-gray-700 mb-2">
+                                        Other Paper
+                                    </label>
+                                    <select id="other_paper_id" name="other_paper_id" class="block w-full border-gray-300 rounded-md shadow-sm">
+                                        <option value=""> Choose a paper </option>
+                                        @foreach($otherPapers as $p)
+                                            <option value="{{ $p->id }}">
+                                                {{ $p->id }} — {{ $p->paper_title }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
+
+                            <!-- 6. Note -->
                             <div>
                                 <label for="note" class="block font-medium text-sm text-gray-700">Note</label>
                                 <textarea name="note" id="note" rows="3" class="border-gray-300 rounded-md shadow-sm block mt-1 w-full">{{ old('note', $registration->note) }}</textarea>

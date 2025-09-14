@@ -20,7 +20,7 @@ class KullaniciController extends Controller
     }
 
 
-    public function paperindex()
+/* public function paperindex()
     {
         // 1. Her kullanıcının sadece kendi makalelerini görmesini sağlar.
         // 2. Makaleyle birlikte yazar bilgisini de (user) verimli bir şekilde çeker.
@@ -35,7 +35,44 @@ class KullaniciController extends Controller
             ->get();
 
         return view('panel.kullanici.index', compact('papers'));
+    } */
+    public function paperindex()
+    {
+        $user = auth()->user();
+
+        // Login paper id ile paper'ı çek ve collection yap
+        $papers = Paper::where('id', $user->login_paper_id)->get();
+
+        if ($papers->isEmpty()) {
+            return redirect()->back()->with('error', 'Login paper bulunamadı.');
+        }
+
+        return view('panel.kullanici.index', compact('papers'));
     }
+
+    public function paperupdatepage()
+    {
+        $user = auth()->user();
+
+        // Ana paper
+        $mainPaper = Paper::with('registration')->find($user->login_paper_id);
+
+        if (!$mainPaper) {
+            return redirect()->back()->with('error', 'Login paper bulunamadı.');
+        }
+
+        // Diğer paperlar (ana paper hariç)
+        $otherPapers = Paper::where('registration_id', $mainPaper->registration_id)
+            ->where('id', '!=', $user->login_paper_id)
+            ->get();
+
+        $registration = $mainPaper->registration;
+
+        return view('panel.kullanici.update', compact('mainPaper', 'registration', 'otherPapers'));
+    }
+
+
+
 
     public function papercreatepage()
     {
@@ -58,15 +95,21 @@ class KullaniciController extends Controller
         return redirect()->route('kullanici.PaperIndex')->with('success', 'Paper başarıyla eklendi.');
     }
 
-    public function paperupdatepage($id)
+   /* public function paperupdatepage()
     {
-        $paper = Paper::findOrFail($id);
+        $user = auth()->user();
 
-        // Paper'a bağlı registration
-        $registration = $paper->registration; // paper modelinde registration ilişkisi olmalı
+        // 1. Kullanıcının ana paper'ı
+        $mainPaper = Paper::findOrFail($user->loginpaper_id);
 
-        return view('panel.kullanici.update', compact('paper', 'registration'));
-    }
+        // 2. Kullanıcının diğer paper'ları (ana paper hariç)
+        $otherPapers = Paper::where('user_id', $user->id)
+            ->where('id', '!=', $user->loginpaper_id)
+            ->get();
+
+        return view('panel.kullanici.update', compact('mainPaper', 'otherPapers'));
+    } */
+
 
 
     public function paperupdate(Request $request)

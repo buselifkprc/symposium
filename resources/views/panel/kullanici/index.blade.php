@@ -5,8 +5,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3>Paper List</h3>
-                    <a href="{{ route('kullanici.PaperCreate') }}" class="btn btn-light px-5 mb-0">
+                    <h3> Active Paper </h3> {{-- Başlık değiştirildi --}}
+                    <a href="{{ route('kullanici.PaperCreate') }}" class="btn btn-primary px-5 mb-0"> {{-- Buton daha belirgin --}}
                         <i class="icon-plus"></i> Create New Paper
                     </a>
                 </div>
@@ -17,8 +17,7 @@
                             <table class="table align-middle">
                                 <thead>
                                 <tr>
-                                    <th>Select</th>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>Title</th>
                                     <th>Author Name Surname</th>
                                     <th>Author Email</th>
@@ -28,10 +27,7 @@
                                 <tbody>
                                 @foreach($papers as $p)
                                     <tr>
-                                        <td>
-                                            <input type="checkbox" name="selected_papers[]" value="{{ $p->id }}" class="select-paper">
-                                        </td>
-                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <th scope="row">{{ $p->id }}</th>
                                         <td>{{ $p->paper_title }}</td>
                                         <td>{{ ($p->registration->user->name ?? '-') . ' ' . ($p->registration->user->surname ?? '') }}</td>
                                         <td>{{ $p->registration->user->email ?? '-' }}</td>
@@ -43,46 +39,9 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <!-- Proceed to Payment Button -->
-                        <div class="mt-4 text-center">
-                            <button type="submit" id="proceed-btn" class="btn btn-success px-5" disabled>Proceed to Payment</button>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('paper-select-form');
-            const checkboxes = document.querySelectorAll('.select-paper');
-            const proceedBtn = document.getElementById('proceed-btn');
-
-            function toggleButton() {
-                // Checkbox'lardan en az birisi seçili mi kontrol et
-                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-                proceedBtn.disabled = !anyChecked;
-            }
-
-            // Checkbox değişikliklerini dinle
-            checkboxes.forEach(cb => cb.addEventListener('change', toggleButton));
-
-            // Sayfa yüklendiğinde buton durumunu kontrol et
-            toggleButton();
-
-            // Submit sırasında yine kontrol et
-            form.addEventListener('submit', function(e) {
-                const selected = Array.from(checkboxes).filter(cb => cb.checked);
-                if(selected.length === 0){
-                    e.preventDefault();
-                    alert("Please select at least one paper to proceed.");
-                }
-            });
-        });
-
-    </script>
-@endpush

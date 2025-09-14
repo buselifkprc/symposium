@@ -11,36 +11,33 @@ class PaperLoginController extends Controller
 {
     public function login(Request $request)
     {
-        // validasyon
         $data = $request->validate([
             'email'    => ['required', 'email'],
             'paper_id' => ['required', 'integer'],
         ]);
 
-        // kullanıcıyı bul
+        // Kullanıcıyı email ile bul
         $user = User::where('email', $data['email'])->first();
 
         if (!$user) {
             return back()->withErrors(['email' => 'Kullanıcı bulunamadı.']);
         }
 
-        // sadece login_paper_id eşleşirse girişe izin ver
+        // Eğer kullanıcıda login_paper_id boşsa, seçilen paper id'yi ata
+        if (!$user->login_paper_id) {
+            $user->login_paper_id = $data['paper_id'];
+            $user->save();
+        }
+
+        // Eğer mevcutsa, giriş yapılan paper ile eşleşiyor mu kontrol et
         if ((int)$user->login_paper_id !== (int)$data['paper_id']) {
             return back()->withErrors(['paper_id' => 'Bu Paper ID ile giriş yapamazsınız.']);
         }
 
-        // paper gerçekten kullanıcıya ait mi kontrol et
-        $owned = $user->papers()
-            ->where('papers.id', $user->login_paper_id)
-            ->exists();
-        if (!$owned) {
-            return back()->withErrors(['paper_id' => 'Bu Paper bu kullanıcıya ait değil.']);
-        }
-
-        // giriş yap
+        // Giriş yap
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/paper/index');
     }
 }

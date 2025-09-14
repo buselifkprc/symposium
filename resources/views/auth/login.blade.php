@@ -69,10 +69,15 @@
                 @endif
             </div>
 --}}
-            <div class="flex justify-center">
-                <x-button class="mt-4">
+            <div class="flex justify-center items-center mt-4 space-x-4">
+                <x-button class="mt-0">
                     {{ __('Log in') }}
                 </x-button>
+
+                <a href="{{ route('register') }}"
+                   class="text-sm font-medium text-gray-700 hover:text-gray-900 underline">
+                    Listener?
+                </a>
             </div>
         </form>
     </x-authentication-card>

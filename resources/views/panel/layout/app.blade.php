@@ -37,17 +37,9 @@
                     <i class="ti ti-x fs-8"></i>
                 </div>
             </div>
-            <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <nav class="sidebar-nav scroll-sidebar mt-4" data-simplebar="">
                 <ul id="sidebarnav">
-
-                    <li class="nav-small-cap">
-                        <a  class="custom-active-style" href="{{ route('dashboard') }}" aria-expanded="false">
-                            <span class="hide-menu">Home</span>
-                        </a>
-                    </li>
-
-
-                    {{-- Ortak: Paper Sayfası --}}
+                {{-- Ortak: Paper Sayfası --}}
                     <li class="sidebar-item">
                         <a class="sidebar-link {{ request()->is('paper*') ? 'custom-active-style' : '' }}" href="{{ route('kullanici.PaperIndex') }}" aria-expanded="false">
                             <span class="hide-menu">Paper Settings</span>
