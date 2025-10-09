@@ -2,11 +2,18 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 md:p-8">
-
                 <div class="mb-8 text-center">
-                    <h2 class="text-2xl font-bold text-gray-900">ISDFS 2025 - Participation Details</h2>
-                    <p class="text-gray-600 mt-1">Welcome, <span class="font-semibold">{{ auth()->user()->name }}</span>! Please complete your registration.</p>
+                    <h2 class="text-2xl font-bold text-gray-900">ISDFS 2026 - Participation Details</h2>
+                    <p class="text-gray-600 mt-1">
+                        Welcome,
+                        <span class="font-semibold">
+            {{ auth()->user()->name }} {{ auth()->user()->surname }}
+        </span>!
+                        Please complete your registration.
+                    </p>
                 </div>
+
+
 
                 @if ($errors->any())
                     <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -27,11 +34,18 @@
                         <div class="space-y-6">
 
                             <!-- Phone Number -->
-                            <div>
-                                <label for="phone_number" class="block font-medium text-sm text-gray-700">Phone Number</label>
-                                <input id="phone_number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
-                                       type="text" name="phone_number"
-                                       value="{{ old('phone_number', $registration->phone_number) }}">
+                            <div class="p-4 border rounded-md">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-2">Phone Number</h3>
+                                <div class="space-y-2">
+                                    <input id="phone_number"
+                                           class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
+                                           type="text"
+                                           name="phone_number"
+                                           pattern="[0-9]+"
+                                           title="Please enter numbers only"
+                                           value="{{ old('phone_number', $registration->phone_number) }}"
+                                           required>
+                                </div>
                             </div>
 
                             <!-- Degree -->
@@ -67,7 +81,7 @@
                             </div>
 
 
-                            <!-- 1. Participation -->
+                            <!--  Participation -->
                             {{-- <div class="p-4 border rounded-md">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Participation *</h3>
                                 <div class="space-y-2">
@@ -92,20 +106,73 @@
                                 </div>
                             </div> --}}
 
-                            <!-- 2. Type of Participation -->
+                            <!-- Type of Participation -->
                             <div class="p-4 border rounded-md">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Type of Participation</h3>
                                 <div class="space-y-2">
                                     @foreach(['IEEE Member', 'Non-IEEE Member', 'IEEE Student Member', 'Student Non-IEEE member'] as $type)
                                         <label class="flex items-center">
-                                            <input type="radio" name="participation_type" value="{{ $type }}" class="form-radio" ...>
+                                            <input
+                                                type="radio"
+                                                name="membership_type"
+                                                value="{{ $type }}"
+                                                class="form-radio membership-radio"
+                                                {{ old('membership_type', $registration->membership_type) == $type ? 'checked' : '' }}
+                                                required
+                                            >
                                             <span class="ml-2">{{ $type }}</span>
                                         </label>
                                     @endforeach
                                 </div>
+
+                                <!-- Dosya yükleme alanları -->
+                                <div id="ieeeFile" class="mt-4 hidden">
+                                    <label for="ieee_certificate" class="block font-medium text-sm text-gray-700"> IEEE Membership Certificate</label>
+                                    <input type="file" id="ieee_certificate" name="ieee_certificate" class="block w-full border-gray-300 rounded-md shadow-sm mt-1">
+                                </div>
+
+                                <div id="studentFile" class="mt-4 hidden">
+                                    <label for="student_certificate" class="block font-medium text-sm text-gray-700"> Student Certificate</label>
+                                    <input type="file" id="student_certificate" name="student_certificate" class="block w-full border-gray-300 rounded-md shadow-sm mt-1">
+                                </div>
                             </div>
 
-                            <!-- 3. Association Member -->
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const radios = document.querySelectorAll('.membership-radio');
+                                    const ieeeFile = document.getElementById('ieeeFile');
+                                    const studentFile = document.getElementById('studentFile');
+
+                                    function toggleFields() {
+                                        const selected = document.querySelector('input[name="membership_type"]:checked');
+                                        if (!selected) return;
+
+                                        // Hepsini gizle
+                                        ieeeFile.classList.add('hidden');
+                                        studentFile.classList.add('hidden');
+
+                                        if (selected.value === 'IEEE Member') {
+                                            ieeeFile.classList.remove('hidden');
+                                        } else if (selected.value === 'IEEE Student Member') {
+                                            ieeeFile.classList.remove('hidden');
+                                            studentFile.classList.remove('hidden');
+                                        } else if (selected.value === 'Student Non-IEEE member') {
+                                            studentFile.classList.remove('hidden');
+                                        }
+                                        // Non-IEEE Member seçilirse hiçbiri açılmaz
+                                    }
+
+                                    radios.forEach(radio => {
+                                        radio.addEventListener('change', toggleFields);
+                                    });
+
+                                    // Sayfa yüklendiğinde eski seçim varsa ona göre aç
+                                    toggleFields();
+                                });
+                            </script>
+
+
+                            <!-- Association Member -->
                             <div class="p-4 border rounded-md">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Are you Association of Software and Cyber Security Members?</h3>
                                 <div class="space-y-2">
@@ -120,13 +187,17 @@
                                 </div>
                             </div>
 
-                            <!-- 4. Presentation Type -->
+                            <!--  Presentation Type -->
                             <div class="p-4 border rounded-md">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Presentation Type</h3>
                                 <div class="space-y-2">
                                     @foreach(['Face to Face', 'Remote-Live Presentation', 'Pre-Recorded Video'] as $type)
                                         <label class="flex items-center">
-                                            <input type="radio" name="presentation_type" value="{{ $type }}" class="form-radio" {{ old('presentation_type', $registration->presentation_type) == $type ? 'checked' : '' }} required>
+                                            <input type="radio"
+                                                   name="presentation_type"
+                                                   value="{{ $type }}"
+                                                   class="form-radio"
+                                                   {{ old('presentation_type', $registration->presentation_type) == $type ? 'checked' : '' }} required>
                                             <span class="ml-2">{{ $type }}</span>
                                         </label>
                                     @endforeach
@@ -134,30 +205,175 @@
 
                                 <!-- Sunacak kişinin adı inputu -->
                                 <div class="mt-4">
-                                    <label for="presenter_name" class="block font-medium text-sm text-gray-700"></label>
-                                    <input id="presenter_name" name="presenter_name" type="text" class="block w-full border-gray-300 rounded-md shadow-sm mt-1"
-                                           value="{{ old('presenter_name', $registration->presenter_name ?? '') }}" placeholder="Enter presenter name">
+                                    <label for="presenter_name" class="block font-medium text-sm text-gray-700">
+                                        Enter Presenter Name
+                                    </label>
+                                    <input id="presenter_name"
+                                           name="presenter_name"
+                                           type="text"
+                                           class="block w-full border-gray-300 rounded-md shadow-sm mt-1"
+                                           value="{{ old('presenter_name', $registration->presenter_name ?? '') }}">
                                 </div>
                             </div>
 
-                            <!-- 5. Other Papers -->
-                            @if($otherPapers->isNotEmpty())
-                                <div class="mt-6 p-4 border rounded-md">
-                                    <label for="other_paper_id" class="block text-lg font-semibold text-gray-700 mb-2">
-                                        Other Paper
-                                    </label>
-                                    <select id="other_paper_id" name="other_paper_id" class="block w-full border-gray-300 rounded-md shadow-sm">
-                                        <option value=""> Choose a paper </option>
-                                        @foreach($otherPapers as $p)
-                                            <option value="{{ $p->id }}">
-                                                {{ $p->id }} — {{ $p->paper_title }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                            <!-- Other Papers -->
+                            <div class="mt-6 p-4 border rounded-md">
+                                <label class="block text-lg font-semibold text-gray-700 mb-2">
+                                    Extra Papers
+                                </label>
 
-                            <!-- 6. Note -->
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <select id="paperSelect"
+                                            class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="">-- Select a paper --</option>
+                                        @foreach($otherPapers as $p)
+                                            @php
+                                                $shortTitle = strlen($p->paper_title) > 40 ? substr($p->paper_title, 0, 40) . '...' : $p->paper_title;
+                                            @endphp
+                                            <option value="{{ $p->id }}">{{ $p->id }} - {{ $shortTitle }}</option>
+                                        @endforeach
+                                        <option value="other" class="font-semibold text-indigo-700">-- Other --</option>
+                                    </select>
+                                    <button type="button" id="addPaperBtn"
+                                            class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                        Add
+                                    </button>
+                                </div>
+
+                                <!-- Yeni paper oluşturma alanı -->
+                                <div id="createPaperForm" class="hidden space-y-3 border rounded-md p-3 bg-gray-50">
+                                    <h3 class="font-semibold text-gray-700">Create New Paper</h3>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-600">Paper ID</label>
+                                        <input type="text" id="newPaperId"
+                                               class="mt-1 w-full border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-600 cursor-not-allowed"
+                                               readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-600">Paper Title</label>
+                                        <input type="text" id="newPaperTitle"
+                                               class="mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-600">Paper Content</label>
+                                        <textarea id="newPaperContent"
+                                                  class="mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                  rows="3"></textarea>
+                                    </div>
+                                    <button type="button" id="createPaperBtn"
+                                            class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                        Create Paper
+                                    </button>
+                                </div>
+
+                                <!-- Seçilen paperların listesi -->
+                                <div id="selectedPapers" class="flex flex-wrap gap-2 mt-4"></div>
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const addBtn = document.getElementById('addPaperBtn');
+                                    const select = document.getElementById('paperSelect');
+                                    const selectedContainer = document.getElementById('selectedPapers');
+                                    const createForm = document.getElementById('createPaperForm');
+                                    const createBtn = document.getElementById('createPaperBtn');
+                                    const idInput = document.getElementById('newPaperId');
+
+                                    // Dropdown değişince kontrol
+                                    select.addEventListener('change', () => {
+                                        if (select.value === 'other') {
+                                            // Yeni ID otomatik hesapla
+                                            idInput.value = getNextNumericId();
+                                            createForm.classList.remove('hidden');
+                                        } else {
+                                            createForm.classList.add('hidden');
+                                        }
+                                    });
+
+                                    // Var olan paper ekleme
+                                    addBtn.addEventListener('click', function () {
+                                        const selectedId = select.value;
+                                        const selectedText = select.options[select.selectedIndex].text;
+
+                                        if (!selectedId || selectedId === 'other') return;
+
+                                        if (document.querySelector(`input[value="${selectedId}"]`)) {
+                                            alert("This paper is already added!");
+                                            return;
+                                        }
+
+                                        addBadge(selectedId, selectedText);
+                                    });
+
+                                    // Yeni paper oluşturma
+                                    createBtn.addEventListener('click', () => {
+                                        const id = idInput.value.trim();
+                                        const title = document.getElementById('newPaperTitle').value.trim();
+                                        const content = document.getElementById('newPaperContent').value.trim();
+
+                                        if (!title || !content) {
+                                            alert("Please fill in all fields!");
+                                            return;
+                                        }
+
+                                        const text = `${id} - ${title}`;
+                                        addBadge(id, text);
+
+                                        // Dropdown'a da yeni paper'ı ekle
+                                        const newOption = document.createElement('option');
+                                        newOption.value = id;
+                                        newOption.text = text;
+                                        select.insertBefore(newOption, select.lastElementChild); // "Other"dan önce ekle
+
+                                        // Form alanlarını sıfırla
+                                        document.getElementById('newPaperTitle').value = '';
+                                        document.getElementById('newPaperContent').value = '';
+                                        createForm.classList.add('hidden');
+                                        select.value = '';
+                                    });
+
+                                    // ID hesaplama (mevcut en büyük + 1)
+                                    function getNextNumericId() {
+                                        let maxId = 0;
+                                        document.querySelectorAll('#paperSelect option').forEach(opt => {
+                                            const val = parseInt(opt.value);
+                                            if (!isNaN(val) && val > maxId) {
+                                                maxId = val;
+                                            }
+                                        });
+                                        return maxId + 1;
+                                    }
+
+                                    // Badge oluşturma fonksiyonu
+                                    function addBadge(id, text) {
+                                        const div = document.createElement('div');
+                                        div.className = "flex items-center space-x-2 bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full shadow text-sm font-medium";
+
+                                        const hiddenInput = document.createElement('input');
+                                        hiddenInput.type = 'hidden';
+                                        hiddenInput.name = 'selected_papers[]';
+                                        hiddenInput.value = id;
+
+                                        const span = document.createElement('span');
+                                        span.textContent = text;
+
+                                        const removeBtn = document.createElement('button');
+                                        removeBtn.type = 'button';
+                                        removeBtn.innerHTML = "&times;";
+                                        removeBtn.className = "ml-2 text-red-600 font-bold hover:text-red-800";
+                                        removeBtn.addEventListener('click', () => div.remove());
+
+                                        div.appendChild(hiddenInput);
+                                        div.appendChild(span);
+                                        div.appendChild(removeBtn);
+                                        selectedContainer.appendChild(div);
+                                    }
+                                });
+                            </script>
+
+
+
+                            <!--  Note -->
                             <div>
                                 <label for="note" class="block font-medium text-sm text-gray-700">Note</label>
                                 <textarea name="note" id="note" rows="3" class="border-gray-300 rounded-md shadow-sm block mt-1 w-full">{{ old('note', $registration->note) }}</textarea>

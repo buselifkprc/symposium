@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\KullaniciController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\Auth\PaperLoginController;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +11,7 @@ use App\Http\Controllers\ListenerController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::post('/login-paper', [PaperLoginController::class, 'login'])->name('paper.login');
@@ -56,3 +57,7 @@ Route::post('/payment', [KullaniciController::class, 'paymentPage'])->name('paym
 // Listener
 Route::get('/listener/registration', [ListenerController::class, 'registration'])
     ->name('listener.registration');
+Route::post('/listener/registration', [ListenerController::class, 'store'])
+    ->name('listener.register');
+// Payment
+Route::get('/payment/{paper_id}', [PaymentController::class, 'show'])->name('payment.page');

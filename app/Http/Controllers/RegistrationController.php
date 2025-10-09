@@ -8,12 +8,17 @@ use App\Http\Controllers\Controller;
 
 class RegistrationController extends Controller
 {
-    // Bu fonksiyonun tek işi, senin ikinci formunu ekrana getirmek.
+    /**
+     * Kayıt formunu (2. formu) ekrana getirir.
+     */
     public function create()
     {
         return view('registration.create');
     }
 
+    /**
+     * Yeni kayıt oluşturur.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,6 +39,12 @@ class RegistrationController extends Controller
             'presentation_type' => ['nullable', 'in:Face to Face,Remote-Live Presentation,Pre-Recorded Video'],
         ]);
 
+        // Kullanıcının zaten kayıt oluşturup oluşturmadığını kontrol et
+        if (Registration::where('user_id', auth()->id())->exists()) {
+            return redirect()->back()->with('error', 'You have already completed registration.');
+        }
+
+        // Kayıt oluşturma
         $registration = Registration::create([
             'user_id' => auth()->id(),
             'participation_type' => $this->mapParticipationType($validated['participation_type']),
@@ -43,29 +54,36 @@ class RegistrationController extends Controller
             'extra_paper_count' => $validated['extra_paper_count'] ?? 0,
             'note' => $validated['note'] ?? null,
         ]);
-        // formu doldurmadan çıkan kişi için güncellenmiş kısım - kontrol
-        $user = auth()->user();
-        $user->has_completed_registration = true; // Değeri 1 (true) yap
-        $user->save(); // Değişikliği veritabanına kaydet
 
+        // Kullanıcının kayıt sürecini tamamladığını işaretle
+        $user = auth()->user();
+        $user->has_completed_registration = true;
+        $user->save();
+
+        // Özet sayfasına yönlendirme
         return redirect()->route('registration.summary')->with('data', [
             ...$validated,
             'participation_type' => $this->mapParticipationType($validated['participation_type']),
         ]);
     }
 
+    /**
+     * Kullanıcıya kayıt özetini gösterir.
+     */
     public function summary()
     {
         $data = session('data');
 
-        // Eğer session boşsa, ana sayfaya yönlendir
         if (!$data) {
             return redirect()->route('home')->with('error', 'No registration data found.');
         }
 
-        return view('registration.formİnfo', compact('data'));
+        return view('registration.formInfo', compact('data'));
     }
 
+    /**
+     * Katılım tipini metin karşılığına dönüştürür.
+     */
     private function mapParticipationType($value)
     {
         return match ($value) {
@@ -75,12 +93,15 @@ class RegistrationController extends Controller
             default => throw new \InvalidArgumentException('Invalid participation type.'),
         };
     }
+
+    /**
+     * Mevcut kayıt verilerini günceller.
+     */
     public function update(Request $request)
     {
-        // Validation (isteğe göre detaylandırabilirsin)
         $request->validate([
             'registration_id' => 'required|exists:registrations,id',
-            'participation_type' => 'required|string',
+            'participation_type' => 'nullable|string|in:1,2,Have Paper',
             'membership_type' => 'required|string',
             'is_ascs_member' => 'required|boolean',
             'presentation_type' => 'required|string',
@@ -89,22 +110,21 @@ class RegistrationController extends Controller
             'paper_ids' => 'nullable|string',
         ]);
 
-        // Registration bul ve güncelle
         $registration = Registration::findOrFail($request->registration_id);
-        $registration->participation_type = $request->participation_type;
+
+        // participation_type varsa map'lenerek güncellenir
+        if (!empty($request->participation_type)) {
+            $registration->participation_type = $this->mapParticipationType($request->participation_type);
+        }
+
         $registration->membership_type = $request->membership_type;
         $registration->is_ascs_member = $request->is_ascs_member;
         $registration->presentation_type = $request->presentation_type;
         $registration->phone_number = $request->phone_number;
         $registration->degree = $request->degree;
         $registration->paper_ids = $request->paper_ids;
-
         $registration->save();
 
-        return back()->with('success', 'Registration updated successfully!');
+        return redirect()->route('kullanici.PaperIndex')->with('success', 'Registration updated successfully!');
     }
-
-
-
 }
-

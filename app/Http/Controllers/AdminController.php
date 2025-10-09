@@ -5,6 +5,7 @@ use App\Models\Paper;
 use App\Models\Registration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Listener;
 use App\Http\Controllers\Controller;
 
 
@@ -12,20 +13,16 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // Eager Loading (with metodu) kullanarak N+1 problemini önlüyoruz.
-        // Bu, sorgu sayısını ciddi oranda azaltır ve performansı artırır.
-
-        // Bütün kullanıcıları rollerini de alarak çekiyoruz.
+        // Mevcut veriler
         $users = User::with('roles')->get();
-
-        // Bütün kayıtları, ilgili kullanıcı bilgisiyle birlikte çekiyoruz.
         $registrations = Registration::with('user')->get();
-
-        // Bütün bildirileri, ilgili kayıt ve o kaydın kullanıcısıyla birlikte çekiyoruz.
         $papers = Paper::with('registration.user')->get();
 
+        // Listener verilerini Listener modelinden çekiyoruz
+        $listeners = Listener::all();
+
         // Verileri view'e gönderiyoruz.
-        return view('panel.admin.index', compact('users', 'registrations', 'papers'));
+        return view('panel.admin.index', compact('users', 'registrations', 'papers', 'listeners'));
     }
 
 

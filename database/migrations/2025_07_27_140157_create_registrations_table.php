@@ -13,29 +13,40 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
+
+            // Kullanıcı ilişkisi: zorunlu olmalı, çünkü kayıt bir kullanıcıya ait
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            // Diğer alanlar opsiyonel hale getirildi
+            $table->string('phone_number')->nullable();
+            $table->string('degree')->nullable();
+            $table->string('presenter_name')->nullable();
+
             $table->enum('participation_type', [
                 'Listener (Main Conference)',
                 'Listener (WDIAA - Alteryx workshop session)',
                 'Have Paper'
-            ]);
+            ])->nullable(); // Eğer kullanıcı daha sonra belirleyecekse, nullable olabilir
 
             $table->enum('membership_type', [
                 'IEEE Member',
                 'Non-IEEE Member',
                 'IEEE Student Member',
                 'Student Non-IEEE member'
-            ]);
-            $table->boolean('is_ascs_member');
+            ])->nullable();
 
-            // Paperı olmayan bir dinleyici için bu alan boş olabilir bu yüzden 'nullable' olmalı.
+            $table->boolean('is_ascs_member')->nullable(); // Zorunlu değilse nullable yapıldı
+
+            // Paperı olmayan dinleyiciler için zaten nullable
             $table->enum('presentation_type', [
                 'Face to Face',
                 'Remote-Live Presentation',
                 'Pre-Recorded Video'
             ])->nullable();
+
             $table->unsignedInteger('extra_paper_count')->default(0);
             $table->text('note')->nullable();
+
             $table->timestamps();
         });
     }
