@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->string('password')->nullable();
             $table->string('institution')->nullable();
+            $table->boolean('has_completed_registration')->default(false);
             $table->enum('degree', [
                 'Ph. D.',
                 'Assistant Professor',
@@ -26,6 +27,8 @@ return new class extends Migration
                 'Professor',
                 'Expert / Student / Other'
             ])->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
+            $table->foreignId('current_team_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

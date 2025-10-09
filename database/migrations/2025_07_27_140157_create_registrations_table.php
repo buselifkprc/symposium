@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('degree')->nullable();
             $table->string('presenter_name')->nullable();
 
+            // Paper ID'leri (örnek: JSON veya virgülle ayrılmış ID listesi)
+            $table->text('paper_ids')->nullable();
+
             $table->enum('participation_type', [
                 'Listener (Main Conference)',
                 'Listener (WDIAA - Alteryx workshop session)',
