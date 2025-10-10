@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationController extends Controller
 {
@@ -112,7 +113,6 @@ class RegistrationController extends Controller
 
         $registration = Registration::findOrFail($request->registration_id);
 
-        // participation_type varsa map'lenerek güncellenir
         if (!empty($request->participation_type)) {
             $registration->participation_type = $this->mapParticipationType($request->participation_type);
         }
@@ -124,6 +124,14 @@ class RegistrationController extends Controller
         $registration->degree = $request->degree;
         $registration->paper_ids = $request->paper_ids;
         $registration->save();
+
+        // ✅ Kullanıcıyı kayıt tamamlandı olarak işaretle
+        $user = auth()->user();
+        $user->has_completed_registration = true;
+        $user->save();
+
+        // ✅ Oturumu güncelle (middleware eski user cache’ini kullanmasın)
+        Auth::setUser($user);
 
         return redirect()->route('kullanici.PaperIndex')->with('success', 'Registration updated successfully!');
     }

@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     // form doldurulmazsa diye dashboard korunuyor
     Route::get('/dashboard', function () { return view('panel.layout.app');})->name('dashboard');
     Route::group(['prefix' => 'paper'], function () {
-        Route::get('index', [KullaniciController::class, 'paperindex'])->name('kullanici.PaperIndex');
+        Route::get('/index', [KullaniciController::class, 'paperindex'])->name('kullanici.PaperIndex');
         Route::get('create', [KullaniciController::class, 'papercreatePage'])->name('kullanici.PaperCreate');
         Route::post('add', [KullaniciController::class, 'paperadd'])->name('kullanici.PaperAdd');
         Route::get('update/{id}', [KullaniciController::class, 'paperupdatepage'])->name('kullanici.PaperUpdatePage');
@@ -51,7 +51,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::post('/etkinlik-kaydi', [RegistrationController::class, 'store'])->name('registration.store');
 Route::get('/register/summary', [RegistrationController::class, 'summary'])->name('registration.summary');
 
-Route::post('/registration/update', [RegistrationController::class, 'update'])->name('registration.update');
+Route::post('/user-registration/update', [RegistrationController::class, 'update'])->name('user.registration.update');
 Route::post('/payment', [KullaniciController::class, 'paymentPage'])->name('payment.page');
 
 // Listener

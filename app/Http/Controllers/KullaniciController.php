@@ -50,24 +50,32 @@ class KullaniciController extends Controller
         return view('panel.kullanici.index', compact('papers'));
     }
 
-    public function paperupdatepage()
+    public function paperupdatepage(Request $request)
     {
         $user = auth()->user();
 
-        // Ana paper
-        $mainPaper = Paper::with('registration')->find($user->login_paper_id);
+        // 1️⃣ paper_id parametresi: route param 'id' veya query 'paper_id'
+        $paperId = $request->route('id') ?? $request->input('paper_id');
 
-        if (!$mainPaper) {
-            return redirect()->back()->with('error', 'Login paper bulunamadı.');
+        if (!$paperId) {
+            return redirect()->back()->with('error', 'Paper ID bulunamadı.');
         }
 
-        // Diğer paperlar (ana paper hariç)
+        // 2️⃣ Ana paper
+        $mainPaper = Paper::with('registration')->find($paperId);
+
+        if (!$mainPaper) {
+            return redirect()->back()->with('error', 'Belirtilen Paper bulunamadı.');
+        }
+
+        // 3️⃣ Diğer paperlar (ana paper hariç)
         $otherPapers = Paper::where('registration_id', $mainPaper->registration_id)
-            ->where('id', '!=', $user->login_paper_id)
+            ->where('id', '!=', $paperId)
             ->get();
 
         $registration = $mainPaper->registration;
 
+        // 4️⃣ View’a gönder
         return view('panel.kullanici.update', compact('mainPaper', 'registration', 'otherPapers'));
     }
 

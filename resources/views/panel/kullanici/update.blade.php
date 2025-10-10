@@ -27,7 +27,7 @@
                 @endif
 
                 @if($registration)
-                    <form action="{{ route('registration.update') }}" method="POST">
+                    <form action="{{ route('user.registration.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="registration_id" value="{{ $registration->id }}">
 
